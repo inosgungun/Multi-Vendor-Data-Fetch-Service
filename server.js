@@ -7,7 +7,7 @@ const app = express();
 
 app.use('/', jobRoutes);
 
-mongoose.connect('mongodb://localhost:27017/multivendor')
+mongoose.connect('mongodb://localhost:27017/multivendor', {maxPoolSize: 50})
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error(err));
 
