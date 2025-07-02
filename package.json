@@ -9,5 +9,10 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0",
+    "p-limit": "^6.2.0",
+    "uuid": "^11.1.0"
+  }
 }
