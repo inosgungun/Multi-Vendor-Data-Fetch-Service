@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Job = require('./db/job');
 
-const app = express();
+const app = express.Router();
 app.use(bodyParser.json());
 
 
@@ -30,6 +30,24 @@ app.get('/jobs/{requestId}', async (req, res) => {
     
 })
 
-app.post('/vendor-webhook/{vendor}', async (req, res) => {
-    
+app.post('/vendor-webhook/:vendor', async (req, res) => {
+    const {vendor} = req.params;
+    const {requestId, data} = req.body;
+
+    if(!requestId || !data){
+        return res.status(400).json({error: 'Missing request ID or Data'});
+    }
+
+    const cleaned = {
+        name: data.name?.trim(),
+    };
+
+    await Job.findOneAndUpdate(
+        {requestId},
+        {cleaned_data: cleaned, status: 'complete'}
+    );
+
+    res.json({status: 'ok', vendor});
 })
+
+module.exports = app;
