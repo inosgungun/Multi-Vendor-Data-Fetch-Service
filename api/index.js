@@ -2,12 +2,10 @@
 const express = require('express');
 const {v4: uuidv4} = require('uuid');
 const {sendToQueue} = require('../queue/queue');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const Job = require('./db/job');
+const Job = require('../db/job');
 
 const app = express.Router();
-app.use(bodyParser.json());
+app.use(express.json());
 
 
 app.post('/jobs', async (req, res) => {
@@ -37,7 +35,7 @@ app.get('/jobs/:requestId', async (req, res) => {
         });
     }
 
-    if(job.status == 'complete'){
+    if(job.status === 'complete'){
         res.json({
             status: 'complete',
             result: job.cleaned_data

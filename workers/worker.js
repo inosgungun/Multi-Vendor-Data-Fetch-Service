@@ -1,5 +1,5 @@
 const Job = require('../db/job');
-const {consumeQueue} = require('../queue/queue');
+const {consumeQueue, connectQueue} = require('../queue/queue');
 const syncVendor = require('../vendors/syncVendor');
 const asyncVendor = require('../vendors/asyncVendor');
 const pLimit = require('p-limit')
@@ -38,6 +38,8 @@ async function processJob({requestId}){
 }
 
 async function startWorker() {
+    await connectQueue();
     await consumeQueue(processJob);
     console.log('Worker is listening for jobs...');
 }
+startWorker();
