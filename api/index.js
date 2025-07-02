@@ -26,9 +26,27 @@ app.post('/jobs', async (req, res) => {
     res.json({request_id: requestId});
 })
 
-app.get('/jobs/{requestId}', async (req, res) => {
-    
-})
+app.get('/jobs/:requestId', async (req, res) => {
+    const {requestId} = req.params;
+
+    const job = await Job.findOne({requestId});
+
+    if(!job){
+        return res.status(404).json({
+            error: 'Job not found'
+        });
+    }
+
+    if(job.status == 'complete'){
+        res.json({
+            status: 'complete',
+            result: job.cleaned_data
+        });
+    }
+    else {
+        res.json({status: 'processing'});
+    }
+});
 
 app.post('/vendor-webhook/:vendor', async (req, res) => {
     const {vendor} = req.params;
