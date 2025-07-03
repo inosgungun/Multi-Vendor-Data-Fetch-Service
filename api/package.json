@@ -1,0 +1,15 @@
+{
+  "name": "multi-vendor-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start:api": "node ../server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "uuid": "^9.0.0",
+    "mongoose": "^7.0.0",
+    "amqplib": "^0.10.3",
+    "dotenv": "^16.0.0"
+  }
+}

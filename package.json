@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start:api": "node api/index.js",
+    "start:worker": "node worker/worker.js",
+    "start:vendor": "node vendor-mocks/start.js",
+    "load-test": "node load-test.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,6 +16,7 @@
   "description": "",
   "dependencies": {
     "amqplib": "^0.10.8",
+    "dotenv": "^17.0.1",
     "express": "^5.1.0",
     "k6": "^0.0.0",
     "mongoose": "^8.16.1",

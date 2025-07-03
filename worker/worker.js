@@ -1,13 +1,13 @@
 (async () => {
     const Job = require('../db/job');
     const {consumeQueue, connectQueue} = require('../queue/queue');
-    const syncVendor = require('../vendors/syncVendor');
-    const asyncVendor = require('../vendors/asyncVendor');
+    const syncVendor = require('../vendor-mocks/syncVendor');
+    const asyncVendor = require('../vendor-mocks/asyncVendor');
     const pLimit = (await import('p-limit')).default;
 
     const mongoose = require('mongoose');
-    await mongoose.connect('mongodb://localhost:27017/multivendor');
-    console.log('Worker connected to MongoDB');
+    const mongoUrl = process.env.MONGO_URL || "mongodb://localhost:27017/vendorDB";
+    await mongoose.connect(mongoUrl);
 
     const limit = pLimit(1);
 

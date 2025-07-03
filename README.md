@@ -1,4 +1,4 @@
-# 🛠 Multi-Vendor Data Fetch Service
+<!-- # 🛠 Multi-Vendor Data Fetch Service
 
 A Node.js backend with MongoDB, RabbitMQ, and Docker. It accepts jobs, fetches data from vendors (sync & async), rate-limits calls, cleans data, and stores final results.
 
@@ -73,4 +73,53 @@ node workers/worker.js
 ```
 docker run -v ${PWD}:/src grafana/k6 run /load-test.js
 ```
-![Results](./images/result.png)
+![Results](./images/result.png) -->
+
+
+# 🐳 Multi-Vendor Fetch Service
+
+A backend system that talks to multiple external data vendors (sync & async) behind a **single clean internal API**.  
+Uses **MongoDB + RabbitMQ + Node.js**, fully containerized via Docker Compose.
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# Build all Docker images
+docker-compose build
+
+# Start all services
+docker-compose up
+
+# Test the API (POST a job)
+curl -X POST http://localhost:3000/jobs -H "Content-Type: application/json" -d '{"user":"test"}'
+
+# Check job status
+curl http://localhost:3000/jobs/<request_id>
+
+    Open RabbitMQ dashboard: http://localhost:15672 (default user/pass: guest/guest)
+
+    MongoDB runs on localhost:27018 (inside container it's mongo:27017)
+
+
+## 🏗 Architecture (ASCII)
+
+        [ Client / Frontend ]
+                  |
+                  v
+         [ API Service (Node.js) ]
+                  |
+                  v
+          RabbitMQ Queue (fetch_requests)
+                  |
+                  v
+          [ Worker Service (Node.js) ]
+                  |
+     +------------+------------+
+     |                         |
+ [Sync Vendor Mock]     [Async Vendor Mock]
+ (HTTP: /sync-vendor)   (HTTP: /async-vendor)
+                  |
+                  v
+         MongoDB (jobs, cleaned data)

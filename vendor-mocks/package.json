@@ -1,0 +1,11 @@
+{
+  "name": "vendor-mocks",
+  "version": "1.0.0",
+  "main": "start.js",
+  "scripts": {
+    "start:vendor": "node start.js"
+  },
+  "dependencies": {
+    "express": "^4.18.0"
+  }
+}
